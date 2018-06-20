@@ -70,5 +70,5 @@ describe('Get /todos', () => {
                 expect(res.body.todos.length).toBe(2);
             })
             .end(done);
-    })
-})
+    });
+});
