@@ -299,5 +299,27 @@ describe('POST /users/login', () => {
                     done();
                 }).catch((e) => done(e));
             });
-    })
-})
+    });
+});
+
+describe('DELETE /users/me/token', () => {
+    it('Should remove Auth Token on Logout', (done) => {
+        
+        request(app)
+            .delete('users/me/token')
+            .set('x-auth', users[0].tokens[0].token)
+            .expect(200)
+            .expect((err, res) => {
+                if(err)
+                {
+                    return done(err);
+                }
+
+                Users.findById(users[0]._id).then((user) => {
+                    expect(user.tokens.length).toBe(0);
+                    done();
+                }).catch((e) => done(e));
+            });
+        setTimeout(done, 4800);
+    });
+}).timeout(5000); // LOOK HERE for timeout err if Occurs. 
